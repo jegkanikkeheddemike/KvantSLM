@@ -192,10 +192,13 @@ def main():
         save_checkpoint(OUT_DIR, model, optimizer, MAX_ITERS, config_dump)
 
 
-
+experiment_config = {
+    "AltTrain1-4.4.128": "6a1c0f28-cfba-40ed-a953-245c99387425",
+    "AltTrain1-8.4.128": "49e57eaa-3ec8-43b0-bb9a-1151fb03d836"
+}
 
 if __name__ == "__main__":
-    tracker = EmissionsTracker(api_key=os.environ["API_KEY"], experiment_id="19e10864-ad0b-456c-827f-8914bfc6d7ad")
+    tracker = EmissionsTracker(api_key=os.environ["API_KEY"], experiment_id=experiment_config["BaseLine"], save_to_api=True, save_to_file=False)
     tracker.start()
     main()
     emissions = tracker.stop()
