@@ -7,6 +7,7 @@ Source: https://github.com/karpathy/nanoGPT
 
 import os
 import pickle
+from codecarbon import EmissionsTracker
 import torch
 
 from model import GPT, GPTConfig
@@ -32,7 +33,7 @@ def load_meta(data_dir: str):
         return pickle.load(f)
 
 
-def main():
+def main(max_tokens: int = MAX_NEW_TOKENS):
     ckpt = torch.load(CKPT_PATH, map_location=DEVICE)
 
     # train.py should store config with model parameters and data_dir
@@ -59,13 +60,33 @@ def main():
 
     out = model.generate(
         idx,
-        max_new_tokens=MAX_NEW_TOKENS,
+        max_new_tokens=max_tokens,
         temperature=TEMPERATURE,
         top_k=TOP_K
     )
 
     print(decode(out[0].tolist()))
 
+API_KEY = "cpt_fIKPwV3K982M8bP31Gi85XIgaO9GL9T8GaYlQX4udd0"
+experiment_config = {
+    "100" : "TODO",
+    "200" : "TODO",
+    "300" : "TODO",
+    "400" : "TODO",
+    "500" : "TODO",
+    "600" : "TODO",
+    "700" : "TODO",
+    "800" : "TODO",
+    "900" : "TODO",
+    "1000" : "TODO",
+}
 
 if __name__ == "__main__":
-    main()
+    for token_len in range(100, 1100, 100):
+        print(f"___ Running experiment with max_tokens={token_len} ___")
+        experiment_id = experiment_config[str(token_len)]
+        for _ in range(10):
+            tracker = EmissionsTracker(api_key=os.environ["API_KEY"], experiment_id=experiment_id)
+            tracker.start()
+            main()
+            emissions = tracker.stop()
