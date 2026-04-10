@@ -86,7 +86,7 @@ if __name__ == "__main__":
         print(f"___ Running experiment with max_tokens={token_len} ___")
         experiment_id = experiment_config[str(token_len)]
         for _ in range(10):
-            tracker = EmissionsTracker(api_key=os.environ["API_KEY"], experiment_id=experiment_id)
+            tracker = EmissionsTracker(api_key=API_KEY, experiment_id=experiment_id, save_to_api=True, save_to_file=False)
             tracker.start()
             main()
             emissions = tracker.stop()
